@@ -1,0 +1,28 @@
+[package]
+
+name    = "monad"
+version = "0.0.0"
+authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
+
+[lib]
+doc     = true
+doctest = false
+name    = "monad"
+path    = "src/lib.rs"
+
+[[bin]]
+doc  = false
+name = "interpreter"
+path = "examples/interpreter.rs"
+
+# [dev-dependencies.criterion]
+# git = "https://github.com/japaric/criterion.rs"
+
+# [dev-dependencies.criterion_macros]
+# git = "https://github.com/japaric/criterion.rs"
+
+# [dev-dependencies.quickcheck]
+# git = "https://github.com/BurntSushi/quickcheck"
+
+# [dev-dependencies.quickcheck_macros]
+# git = "https://github.com/BurntSushi/quickcheck"
