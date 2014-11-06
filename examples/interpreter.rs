@@ -72,6 +72,6 @@ fn main() {
         )
     }
 
-    println!("{}", eval(exp_test("x"))(BTreeMap::new()));
-    println!("{}", eval(exp_test("y"))(BTreeMap::new()));
+    println!("{}", eval(exp_test("x")).run.call_once((BTreeMap::new(),)));
+    println!("{}", eval(exp_test("y")).run.call_once((BTreeMap::new(),)));
 }
