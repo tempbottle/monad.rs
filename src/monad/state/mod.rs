@@ -28,7 +28,7 @@ impl <'s,S,A> State<'s,S,A>
         State(proc(s:S) { (s.clone(), s) })
     }
 
-    pub fn set(s:S) -> State<'s,S,()> {
+    pub fn put(s:S) -> State<'s,S,()> {
         State(proc(_) { ((), s) })
     }
 
