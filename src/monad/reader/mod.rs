@@ -4,7 +4,6 @@ impl <'r,E,A> Reader<'r,E,A>
     where
         E:Clone,
 {
-
     #[inline]
     pub fn run(self, e:E) -> A {
         let Reader(reader) = self;
@@ -28,7 +27,6 @@ impl <'r,E,A> Reader<'r,E,A>
     pub fn local(self, f:proc(E) -> E) -> Reader<'r,E,A> {
         Reader(proc(e) { self.run(f(e)) })
     }
-
 }
 
 #[inline]

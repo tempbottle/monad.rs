@@ -8,14 +8,14 @@ use monad::monad::state::{
 fn incr<'s>() -> State<'s,int,()>
 {
     state::get().bind(proc(a:int) {
-        state::put(a + 1i)
+    state::put(a + 1i)
     })
 }
 
 fn decr<'s>() -> State<'s,int,()>
 {
     state::get().bind(proc(a:int) {
-        state::put(a - 1i)
+    state::put(a - 1i)
     })
 }
 
