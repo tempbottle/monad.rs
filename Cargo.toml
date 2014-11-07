@@ -12,6 +12,11 @@ path    = "src/lib.rs"
 
 [[bin]]
 doc  = false
+name = "counter"
+path = "examples/counter.rs"
+
+[[bin]]
+doc  = false
 name = "interpreter"
 path = "examples/interpreter.rs"
 
