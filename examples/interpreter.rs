@@ -23,29 +23,29 @@ enum Exp
 fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
     match e {
         Add(box e1, box e2) => {
-            eval(e1).and_then(proc(o1:Option<uint>) {
-            eval(e2).and_then(proc(o2:Option<uint>) {
+            eval(e1).bind(proc(o1:Option<uint>) {
+            eval(e2).bind(proc(o2:Option<uint>) {
                 let res =
                     o1.and_then(|v1| {
                     o2.and_then(|v2| {
                         Some(v1 + v2)
                     })});
-                Reader::ret(res)
+                Reader::point(res)
             })})
         },
         Let(x, box e1, box e2) => {
-            eval(e1).and_then(proc(o1:Option<uint>) {
+            eval(e1).bind(proc(o1:Option<uint>) {
             eval(e2).local(proc(mut ctx:BTreeMap<String,uint>) {
                 o1.map(|v1| { (&mut ctx).insert(x.clone(), v1); });
                 ctx
             })})
         },
         Val(n) => {
-            Reader::ret(Some(n))
+            Reader::point(Some(n))
         },
         Var(x) => {
-            ask().and_then(proc (ctx:BTreeMap<String,uint>) {
-                Reader::ret(ctx.find(&x).map(|x| { *x }))
+            ask().bind(proc (ctx:BTreeMap<String,uint>) {
+                Reader::point(ctx.find(&x).map(|x| { *x }))
             })
         },
     }
@@ -68,6 +68,6 @@ fn main() {
         )
     }
 
-    println!("{}", (eval(exp_test("x")).run)(BTreeMap::new()));
-    println!("{}", (eval(exp_test("y")).run)(BTreeMap::new()));
+    println!("{}", eval(exp_test("x")).run(BTreeMap::new()));
+    println!("{}", eval(exp_test("y")).run(BTreeMap::new()));
 }
