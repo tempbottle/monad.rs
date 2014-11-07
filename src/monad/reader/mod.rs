@@ -39,7 +39,7 @@ impl <'r,E,A> Reader<'r,E,A>
         }
     }
 
-    pub fn within(self, f:proc(E) -> E) -> Reader<'r,E,A>
+    pub fn local(self, f:proc(E) -> E) -> Reader<'r,E,A>
     {
         Reader {
             run: proc(e) {

@@ -35,7 +35,7 @@ fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
         },
         Let(x, box e1, box e2) => {
             eval(e1).and_then(proc(o1:Option<uint>) {
-            eval(e2).within(proc(mut ctx:BTreeMap<String,uint>) {
+            eval(e2).local(proc(mut ctx:BTreeMap<String,uint>) {
                 o1.map(|v1| { (&mut ctx).insert(x.clone(), v1); });
                 ctx
             })})
