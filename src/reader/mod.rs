@@ -3,7 +3,7 @@ pub struct Reader<'r,E,A>
         A:'r,
         E:Clone,
 {
-    pub run: Box<FnOnce<(E,), A> + 'r>
+    pub run: proc(E):'r -> A
 }
 
 // impl<'r,E,A> FnOnce<(E,),A> for Reader<'r,E,A>
@@ -23,26 +23,30 @@ impl <'r,E,A> Reader<'r,E,A>
     pub fn ret(x:A) -> Reader<'r,E,A>
     {
         Reader {
-            run: box move |:_| {
+            run: proc(_) {
                 x
             }
         }
     }
 
-    pub fn and_then<'s,B:'s,F:FnOnce<(A,),Reader<'s,E,B>> + 'r + 's>(self, f:F) -> Reader<'r,E,B>
+    pub fn and_then<B>(self, f:proc(A) -> Reader<'r,E,B>) -> Reader<'r,E,B>
         where
             B:Clone,
     {
         Reader {
-            run: box move |:e:E| {
-                f.call_once((self.run.call_once((e.clone(),)),)).run.call_once((e,))
+            run: proc(e:E) {
+                (f((self.run)(e.clone())).run)(e)
             }
         }
     }
 
-    pub fn within<F:FnOnce<(E,),E> + 'r>(self, f:F) -> Reader<'r,E,A>
+    pub fn within(self, f:proc(E) -> E) -> Reader<'r,E,A>
     {
-        Reader { run: box move |:e| { self.run.call_once((f.call_once((e,)),)) } }
+        Reader {
+            run: proc(e) {
+                (self.run)(f(e))
+            }
+        }
     }
 
 }
@@ -51,5 +55,9 @@ pub fn ask<'r,E>() -> Reader<'r,E,E>
     where
         E:Clone,
 {
-    Reader { run: box move |:e| { e } }
+    Reader {
+        run: proc(e) {
+            e
+        }
+    }
 }
