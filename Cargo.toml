@@ -12,13 +12,13 @@ path    = "src/lib.rs"
 
 [[bin]]
 doc  = false
-name = "counter"
-path = "examples/counter.rs"
+name = "reader"
+path = "examples/reader.rs"
 
 [[bin]]
 doc  = false
-name = "interpreter"
-path = "examples/interpreter.rs"
+name = "state"
+path = "examples/state.rs"
 
 # [dev-dependencies.criterion]
 # git = "https://github.com/japaric/criterion.rs"
