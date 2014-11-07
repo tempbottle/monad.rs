@@ -9,4 +9,4 @@
 
 //! This crate implements various monad structures.
 
-pub mod reader;
+pub mod monad;

@@ -5,7 +5,7 @@ extern crate monad;
 
 use std::collections::BTreeMap;
 
-use monad::reader::{
+use monad::monad::reader::{
     Reader,
     ask,
 };
