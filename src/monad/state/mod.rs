@@ -7,12 +7,15 @@ impl <'s,S,A> State<'s,S,A>
         state(s)
     }
 
-    pub fn bind<B>(self, f:proc(A) -> State<'s,S,B>) -> State<'s,S,B>
-    {
+    pub fn bind<B>(self, f:proc(A) -> State<'s,S,B>) -> State<'s,S,B> {
         State(proc(s) {
             let (a,t) = self.run(s);
             f(a).run(t)
         })
+    }
+
+    pub fn seq<B>(self, m:State<'s,S,B>) -> State<'s,S,B> {
+        self.bind(proc(_) m)
     }
 }
 

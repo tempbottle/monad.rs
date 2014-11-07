@@ -21,11 +21,11 @@ fn decr<'s>() -> State<'s,int,()>
 
 fn main() {
     let mon =
-        incr().bind(proc(_) {
-        incr().bind(proc(_) {
-        decr().bind(proc(_) {
+        incr().seq(
+        incr().seq(
+        decr().seq(
         decr()
-        })})});
+        )));
     let fst = 42i;
     let res = mon.run(fst);
     println!("{} == {} is {}", fst, res.1, fst == res.1);
