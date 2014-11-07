@@ -15,8 +15,6 @@ impl <'s,S,A> State<'s,S,A>
     }
 
     pub fn bind<B>(self, f:proc(A) -> State<'s,S,B>) -> State<'s,S,B>
-        where
-            B:Clone,
     {
         State(proc(s) {
             let (a,t) = self.run(s);
