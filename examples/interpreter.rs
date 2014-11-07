@@ -1,6 +1,3 @@
-#![feature(overloaded_calls)]
-#![feature(unboxed_closures)]
-
 extern crate monad;
 
 use std::collections::BTreeMap;
