@@ -37,5 +37,5 @@ pub fn get<'s,S>() -> State<'s,S,S>
 
 #[inline]
 pub fn put<'s,S>(s:S) -> State<'s,S,()> {
-    State(proc(_) { ((), s) })
+    State(proc(_) { ((),s) })
 }
