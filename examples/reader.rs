@@ -42,7 +42,7 @@ fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
         },
         Var(x) => {
             ask().bind(proc (ctx:BTreeMap<String,uint>) {
-                Reader::point(ctx.find(&x).map(|x| { *x }))
+                Reader::point(ctx.get(&x).map(|x| { *x }))
             })
         },
     }
