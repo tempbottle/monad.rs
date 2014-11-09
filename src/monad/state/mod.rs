@@ -1,41 +1,56 @@
-pub struct State<'s,S,A>(proc(S):'s -> (A,S));
+use free::trampoline::{
+    Trampoline,
+    done,
+    more,
+};
 
-impl <'s,S,A> State<'s,S,A>
-{
+pub struct State<'a,S,A>(proc(S):'a -> Trampoline<'a,(A,S)>);
+
+impl<'a,S,A> State<'a,S,A> {
     #[inline]
-    pub fn run(self, s:S) -> (A,S) {
+    fn trampoline(self, s:S) -> Trampoline<'a,(A,S)> {
         let State(state) = self;
         state(s)
     }
 
     #[inline]
-    pub fn bind<B>(self, f:proc(A) -> State<'s,S,B>) -> State<'s,S,B> {
+    pub fn run(self, s:S) -> (A,S) {
+        self.trampoline(s).run()
+    }
+
+    #[inline]
+    pub fn bind<B>(self, f:proc(A):'a -> State<'a,S,B>) -> State<'a,S,B> {
         State(proc(s) {
-            let (a,t) = self.run(s);
-            f(a).run(t)
+            more(proc() {
+                self.trampoline(s).bind(proc((a,s):(A,S)) {
+                    more(proc() {
+                        f(a).trampoline(s)
+                    })
+                })
+            })
         })
     }
 
     #[inline]
-    pub fn seq<B>(self, m:State<'s,S,B>) -> State<'s,S,B> {
+    pub fn seq<B>(self, m:State<'a,S,B>) -> State<'a,S,B> {
         self.bind(proc(_) m)
     }
 }
 
 #[inline]
-pub fn point<'s,S,A>(a:A) -> State<'s,S,A> {
-    State(proc(s) (a,s))
+pub fn point<'a,S,A>(a:A) -> State<'a,S,A> {
+    State(proc(s) done((a,s)))
 }
 
 #[inline]
-pub fn get<'s,S>() -> State<'s,S,S>
+pub fn get<'a,S>() -> State<'a,S,S>
     where
         S:Clone,
 {
-    State(proc(s:S) { (s.clone(), s) })
+    State(proc(s:S) { done((s.clone(),s)) })
 }
 
 #[inline]
-pub fn put<'s,S>(s:S) -> State<'s,S,()> {
-    State(proc(_) { ((),s) })
+pub fn put<'a,S>(s:S) -> State<'a,S,()> {
+    State(proc(_) { done(((),s)) })
 }

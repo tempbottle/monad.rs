@@ -6,4 +6,6 @@
 
 //! This crate implements various monad structures.
 
+extern crate free;
+
 pub mod monad;
