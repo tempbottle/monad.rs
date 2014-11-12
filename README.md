@@ -1,6 +1,6 @@
 # monad.rs
 
-Monads in Rust
+Stackless monads in Rust
 
 [![build status](https://api.travis-ci.org/epsilonz/monad.rs.svg?branch=master)](https://travis-ci.org/epsilonz/monad.rs)
 
