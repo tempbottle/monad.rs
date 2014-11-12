@@ -1,3 +1,5 @@
+#![feature(unboxed_closures)]
+
 extern crate monad;
 
 use monad::monad::state;
@@ -7,14 +9,14 @@ use monad::monad::state::{
 
 #[inline(always)]
 pub fn incr<'a>() -> State<'a,int,()> {
-    state::get().bind(proc(a:int) {
+    state::get().bind(|:a: int| {
     state::put(a + 1i)
     })
 }
 
 #[inline(always)]
 pub fn decr<'a>() -> State<'a,int,()> {
-    state::get().bind(proc(a:int) {
+    state::get().bind(|:a: int| {
     state::put(a - 1i)
     })
 }

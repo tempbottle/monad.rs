@@ -17,6 +17,7 @@ enum Exp
     Let(String, Box<Exp>, Box<Exp>)
 }
 
+#[allow(dead_code)]
 fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
     match e {
         Add(box e1, box e2) => {
@@ -48,6 +49,7 @@ fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
     }
 }
 
+#[allow(dead_code)]
 fn main() {
     fn exp_test(var:&str) -> Exp {
         Let(String::from_str("x"),
