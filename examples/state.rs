@@ -2,28 +2,30 @@
 
 extern crate monad;
 
-use monad::monad::state;
 use monad::monad::state::{
     State,
+    get,
+    point,
+    put,
 };
 
 #[inline(always)]
-pub fn incr<'a>() -> State<'a,int,()> {
-    state::get().bind(|:a: int| {
-    state::put(a + 1i)
+pub fn incr<'a>() -> State<'a, int, ()> {
+    get().bind(|:a: int| {
+    put(a + 1i)
     })
 }
 
 #[inline(always)]
-pub fn decr<'a>() -> State<'a,int,()> {
-    state::get().bind(|:a: int| {
-    state::put(a - 1i)
+pub fn decr<'a>() -> State<'a, int, ()> {
+    get().bind(|:a: int| {
+    put(a - 1i)
     })
 }
 
 #[allow(dead_code)]
 fn main() {
-    let mut mon = state::point(());
+    let mut mon = point(());
     for _ in range(0u, 5000u) {
         mon = mon.seq(incr())
     }
