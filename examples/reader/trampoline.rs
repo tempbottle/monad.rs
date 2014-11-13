@@ -1,8 +1,10 @@
+#![feature(unboxed_closures)]
+
 extern crate monad;
 
 use std::collections::BTreeMap;
 
-use monad::monad::reader::{
+use monad::monad::reader::trampoline::{
     Reader,
     ask,
 };
@@ -21,8 +23,8 @@ enum Exp
 fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
     match e {
         Add(box e1, box e2) => {
-            eval(e1).bind(proc(o1:Option<uint>) {
-            eval(e2).bind(proc(o2:Option<uint>) {
+            eval(e1).bind(move |:o1: Option<uint>| {
+            eval(e2).bind(move |:o2: Option<uint>| {
                 let res =
                     o1.and_then(|v1| {
                     o2.and_then(|v2| {
@@ -32,8 +34,8 @@ fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
             })})
         },
         Let(x, box e1, box e2) => {
-            eval(e1).bind(proc(o1:Option<uint>) {
-            eval(e2).local(proc(mut ctx:BTreeMap<String,uint>) {
+            eval(e1).bind(move |:o1: Option<uint>| {
+            eval(e2).local(move |:mut ctx: BTreeMap<String,uint>| {
                 o1.map(|v1| { (&mut ctx).insert(x.clone(), v1); });
                 ctx
             })})
@@ -42,7 +44,7 @@ fn eval<'r>(e:Exp) -> Reader<'r,BTreeMap<String,uint>,Option<uint>> {
             Reader::point(Some(n))
         },
         Var(x) => {
-            ask().bind(proc (ctx:BTreeMap<String,uint>) {
+            ask().bind(move |:ctx: BTreeMap<String,uint>| {
                 Reader::point(ctx.get(&x).map(|x| { *x }))
             })
         },

@@ -12,8 +12,8 @@ path    = "src/lib.rs"
 
 [[bin]]
 doc  = false
-name = "reader"
-path = "examples/reader.rs"
+name = "reader-trampoline"
+path = "examples/reader/trampoline.rs"
 
 [[bin]]
 doc  = false
