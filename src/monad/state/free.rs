@@ -40,8 +40,6 @@ pub fn point<'a, S, A:'a>(a: A) -> State<'a, S, A> {
 
 #[inline]
 pub fn get<'a, S>() -> State<'a, S, S>
-    where
-        S: Clone,
 {
     Roll(Get(box |:s| box Pure(s)))
 }
