@@ -19,6 +19,7 @@ impl<'a, S:'a, A:'a> State<'a, S, A>
     where
         S: Clone,
 {
+    #[inline]
     pub fn run(mut self, mut s: S) -> A {
         loop { match self.resume() {
             Ok(a) => return a,
