@@ -22,11 +22,6 @@ impl <'a, R:'a, A:'a> Reader<'a, R, A>
     }
 
     #[inline]
-    pub fn point(a: A) -> Reader<'a, R, A> {
-        Reader(box move |:_| done(a))
-    }
-
-    #[inline]
     pub fn bind<B:'a, F:'a>(self, f: F) -> Reader<'a, R, B>
         where
             F: FnOnce(A) -> Reader<'a, R, B>,
@@ -49,6 +44,11 @@ impl <'a, R:'a, A:'a> Reader<'a, R, A>
     {
         Reader(box move |:r| self.trampoline(f(r)))
     }
+}
+
+#[inline]
+pub fn point<'a, A:'a, R>(a: A) -> Reader<'a, R, A> {
+    Reader(box move |:_| done(a))
 }
 
 #[inline]
