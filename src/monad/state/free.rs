@@ -36,16 +36,16 @@ impl<'a, S:'a, A:'a> State<'a, S, A>
 
 #[inline]
 pub fn point<'a, S, A:'a>(a: A) -> State<'a, S, A> {
-    Pure(a)
+    Leaf(a)
 }
 
 #[inline]
 pub fn get<'a, S>() -> State<'a, S, S>
 {
-    Roll(Get(box |:s| box Pure(s)))
+    Nest(Get(box |:s| box Leaf(s)))
 }
 
 #[inline]
 pub fn put<'a, S:'a>(s: S) -> State<'a ,S, ()> {
-    Roll(Put(s, box Pure(())))
+    Nest(Put(s, box Leaf(())))
 }
