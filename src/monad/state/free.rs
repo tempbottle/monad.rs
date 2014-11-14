@@ -35,6 +35,14 @@ impl<'a, S:'a, A:'a> State<'a, S, A>
 }
 
 #[inline]
+pub fn bind<'a, S:'a, A:'a, B:'a, F:'a>(m: State<'a, S, A>, f: F) -> State<'a, S, B>
+    where
+        F: FnOnce(A) -> State<'a, S, B>,
+{
+    m.bind(f)
+}
+
+#[inline]
 pub fn point<'a, S, A:'a>(a: A) -> State<'a, S, A> {
     Leaf(a)
 }

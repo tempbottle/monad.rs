@@ -47,7 +47,16 @@ impl <'a, R:'a, A:'a> Reader<'a, R, A>
 }
 
 #[inline]
-pub fn point<'a, A:'a, R>(a: A) -> Reader<'a, R, A> {
+pub fn bind<'a, R:'a, A:'a, B:'a, F:'a>(m: Reader<'a, R, A>, f: F) -> Reader<'a, R, B>
+    where
+        F: FnOnce(A) -> Reader<'a, R, B>,
+        R: Clone,
+{
+    m.bind(f)
+}
+
+#[inline]
+pub fn point<'a, R, A:'a>(a: A) -> Reader<'a, R, A> {
     Reader(box move |:_| done(a))
 }
 
