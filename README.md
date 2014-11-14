@@ -4,6 +4,8 @@ Stackless monads in Rust
 
 [![build status](https://api.travis-ci.org/epsilonz/monad.rs.svg?branch=master)](https://travis-ci.org/epsilonz/monad.rs)
 
+The `mdo!` macro is based on upon [rust-mdo](https://github.com/TeXitoi/rust-mdo) but modified to work with the different structures here.
+
 ## Documentation
 
 See the API documentation [here](http://www.rust-ci.org/epsilonz/monad.rs/doc/monad/).
