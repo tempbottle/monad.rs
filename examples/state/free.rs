@@ -1,9 +1,13 @@
+#![feature(phase)]
 #![feature(unboxed_closures)]
 
+#[phase(link, plugin)]
+extern crate monad_macros;
 extern crate monad;
 
 use monad::monad::state::free::{
     State,
+    bind,
     get,
     point,
     put,
@@ -11,16 +15,18 @@ use monad::monad::state::free::{
 
 #[inline(always)]
 pub fn incr<'a>() -> State<'a, int, ()> {
-    get().bind(|:a: int| {
-    put(a + 1i)
-    })
+    mdo! {
+        a: int <- get();
+        end put(a + 1i)
+    }
 }
 
 #[inline(always)]
 pub fn decr<'a>() -> State<'a, int, ()> {
-    get().bind(|:a: int| {
-    put(a - 1i)
-    })
+    mdo! {
+        a: int <- get();
+        end put(a - 1i)
+    }
 }
 
 #[allow(dead_code)]

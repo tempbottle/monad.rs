@@ -28,6 +28,9 @@ path = "examples/state/trampoline.rs"
 [dependencies.free]
 git = "https://github.com/epsilonz/free.rs"
 
+[dependencies.monad_macros]
+path = "./macros"
+
 [dependencies.tailrec]
 git = "https://github.com/epsilonz/tailrec.rs"
 
