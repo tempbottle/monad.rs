@@ -1,0 +1,10 @@
+[package]
+
+name    = "monad_macros"
+version = "0.0.0"
+authors = [ "Darin Morrison <darinmorrison+epsilonz@gmail.com>" ]
+
+[lib]
+name   = "monad_macros"
+path   = "src/lib.rs"
+plugin = true
