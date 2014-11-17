@@ -4,14 +4,14 @@
 macro_rules! mdo {
     (
         let $p: path = $e: expr ; $( $t: tt )*
-    ) => (
+    ) => {
             { let $p = $e ; mdo! { $( $t )* } }
-    );
+    };
     (
         let $p: path : $ty: ty = $e: expr ; $( $t: tt )*
-    ) => (
+    ) => {
             { let $p: $ty = $e ; mdo! { $( $t )* } }
-    );
+    };
     (
         $p: pat : $ty: ty <- $e: expr ; $( $t: tt )*
     ) => {
