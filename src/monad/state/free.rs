@@ -1,3 +1,8 @@
+use self::StateF::{
+    Get,
+    Put,
+};
+
 pub enum StateF<'a, S, X> {
     Get(Box<FnOnce<(S,), X> + 'a>),
     Put(S, X),
@@ -44,16 +49,16 @@ pub fn bind<'a, S:'a, A:'a, B:'a, F:'a>(m: State<'a, S, A>, f: F) -> State<'a, S
 
 #[inline]
 pub fn point<'a, S, A:'a>(a: A) -> State<'a, S, A> {
-    Leaf(a)
+    State::Leaf(a)
 }
 
 #[inline]
 pub fn get<'a, S>() -> State<'a, S, S>
 {
-    Nest(Get(box |:s| box Leaf(s)))
+    State::Nest(Get(box |:s| box State::Leaf(s)))
 }
 
 #[inline]
 pub fn put<'a, S:'a>(s: S) -> State<'a ,S, ()> {
-    Nest(Put(s, box Leaf(())))
+    State::Nest(Put(s, box State::Leaf(())))
 }

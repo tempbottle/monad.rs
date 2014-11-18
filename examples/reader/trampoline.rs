@@ -14,14 +14,21 @@ use monad::monad::reader::trampoline::{
     point,
 };
 
+use self::Exp::{
+    Add,
+    Let,
+    Val,
+    Var,
+};
+
 #[deriving(Clone)]
 #[deriving(Show)]
 enum Exp
 {
     Add(Box<Exp>, Box<Exp>),
+    Let(String, Box<Exp>, Box<Exp>),
     Val(uint),
     Var(String),
-    Let(String, Box<Exp>, Box<Exp>)
 }
 
 #[allow(dead_code)]
