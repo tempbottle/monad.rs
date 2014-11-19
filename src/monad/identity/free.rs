@@ -1,9 +1,11 @@
 pub struct Sig<'a, X>;
 
+#[inline]
 fn absurd<'a, X, A>(_: Sig<'a, X>) -> A {
     unreachable!()
 }
 
+#[inline]
 fn map<'a, X, Y, F:'a>(m: Sig<'a, X>, _: F) -> Sig<'a, Y>
     where
     F: FnOnce(X) -> Y,
