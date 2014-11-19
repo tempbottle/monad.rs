@@ -1,14 +1,14 @@
-use self::StateF::{
+use self::Sig::{
     Get,
     Put,
 };
 
-pub enum StateF<'a, S, X> {
+pub enum Sig<'a, S, X> {
     Get(Box<FnOnce<(S,), X> + 'a>),
     Put(S, X),
 }
 
-pub fn map<'a, S, X, Y, F:'a>(m: StateF<'a, S, X>, f: F) -> StateF<'a, S, Y>
+pub fn map<'a, S, X, Y, F:'a>(m: Sig<'a, S, X>, f: F) -> Sig<'a, S, Y>
     where
         F: FnOnce(X) -> Y,
 {
@@ -18,7 +18,7 @@ pub fn map<'a, S, X, Y, F:'a>(m: StateF<'a, S, X>, f: F) -> StateF<'a, S, Y>
     }
 }
 
-free_monad!(State, StateF, map, [ S, ])
+monad!(State, Sig, map, [ S, ])
 
 impl<'a, S:'a, A:'a> State<'a, S, A>
     where
@@ -32,33 +32,15 @@ impl<'a, S:'a, A:'a> State<'a, S, A>
             Err(Put(t, a)) => { s = t; self = *a },
         }}
     }
-
-    #[inline]
-    pub fn seq<B:'a>(self, m: State<'a, S, B>) -> State<'a, S, B> {
-        self.bind(move |:_| m)
-    }
-}
-
-#[inline]
-pub fn bind<'a, S:'a, A:'a, B:'a, F:'a>(m: State<'a, S, A>, f: F) -> State<'a, S, B>
-    where
-        F: FnOnce(A) -> State<'a, S, B>,
-{
-    m.bind(f)
-}
-
-#[inline]
-pub fn point<'a, S, A:'a>(a: A) -> State<'a, S, A> {
-    State::Leaf(a)
 }
 
 #[inline]
 pub fn get<'a, S>() -> State<'a, S, S>
 {
-    State::Nest(Get(box |:s| box State::Leaf(s)))
+    wrap(Get(box |:s| box point(s)))
 }
 
 #[inline]
 pub fn put<'a, S:'a>(s: S) -> State<'a ,S, ()> {
-    State::Nest(Put(s, box State::Leaf(())))
+    wrap(Put(s, box point(())))
 }
