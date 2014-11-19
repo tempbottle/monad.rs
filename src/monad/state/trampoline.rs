@@ -25,7 +25,7 @@ impl<'a, S:'a, A:'a> State<'a, S, A> {
     {
         State(box move |:s| {
             more(box move |:| {
-                self.trampoline(s).bind(move |:(a, s):(A, S)| {
+                self.trampoline(s).bind(move |:(a, s)| {
                     more(box move |:| {
                         f.call_once((a,)).trampoline(s)
                     })

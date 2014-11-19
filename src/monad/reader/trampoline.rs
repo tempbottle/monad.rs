@@ -28,7 +28,7 @@ impl <'a, R:'a, A:'a> Reader<'a, R, A>
     {
         Reader(box move |:r: R| {
             more(box move |:| {
-                self.trampoline(r.clone()).bind(move |:a: A| {
+                self.trampoline(r.clone()).bind(move |:a| {
                     more(box move |:| {
                         f.call_once((a,)).trampoline(r)
                     })
