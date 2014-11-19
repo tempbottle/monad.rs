@@ -12,6 +12,11 @@ path    = "src/lib.rs"
 
 [[bin]]
 doc  = false
+name = "identity-free"
+path = "examples/identity/free.rs"
+
+[[bin]]
+doc  = false
 name = "reader-trampoline"
 path = "examples/reader/trampoline.rs"
 
