@@ -8,7 +8,7 @@ The `mdo!` macro is based on upon [rust-mdo](https://github.com/TeXitoi/rust-mdo
 
 ## Documentation
 
-See the API documentation [here](http://www.rust-ci.org/epsilonz/monad.rs/doc/monad/).
+See the API documentation [here](http://epsilonz.github.io/monad.rs/doc/monad/).
 
 ## Requirements
 

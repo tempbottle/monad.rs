@@ -2,7 +2,7 @@
 #![crate_type="lib"]
 
 #![license = "MIT"]
-#![doc(html_root_url = "http://www.rust-ci.org/epsilonz/monad.rs/doc/monad/")]
+#![doc(html_root_url = "http://epsilonz.github.io/monad.rs/doc/monad/")]
 
 #![feature(phase)]
 #![feature(unboxed_closures)]
