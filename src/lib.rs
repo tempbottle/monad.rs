@@ -1,7 +1,6 @@
 #![crate_name="monad"]
 #![crate_type="lib"]
 
-#![license = "MIT"]
 #![doc(html_root_url = "http://epsilonz.github.io/monad.rs/doc/monad/")]
 
 #![feature(phase)]
