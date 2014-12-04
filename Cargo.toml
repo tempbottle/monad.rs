@@ -21,20 +21,20 @@ doc = false
 name = "identity-free"
 path = "examples/identity/free.rs"
 
-[[bin]]
-doc = false
-name = "reader-trampoline"
-path = "examples/reader/trampoline.rs"
+# [[bin]]
+# doc = false
+# name = "reader-trampoline"
+# path = "examples/reader/trampoline.rs"
 
 [[bin]]
 doc = false
 name = "state-free"
 path = "examples/state/free.rs"
 
-[[bin]]
-doc = false
-name = "state-trampoline"
-path = "examples/state/trampoline.rs"
+# [[bin]]
+# doc = false
+# name = "state-trampoline"
+# path = "examples/state/trampoline.rs"
 
 [dependencies.monad_macros]
 path = "./macros"
